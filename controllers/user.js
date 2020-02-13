@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const jwt = require('jsonwebtoken') //to generate signed token
+const expressJwt = require('express-jwt') //for authorization signin
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
 exports.signup = (req,res) =>{
@@ -17,3 +19,8 @@ exports.signup = (req,res) =>{
         })
     })
 } 
+
+exports.signin = (req,res) =>{
+    //find the user based on email
+
+}
