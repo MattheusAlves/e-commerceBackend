@@ -8,8 +8,8 @@ exports.categoryById = (req, res, next, id) => {
         error: "Category does not exist"
       });
     }
-    req.category = category
-    next()
+    req.category = category;
+    next();
   });
 };
 exports.create = (req, res) => {
@@ -23,6 +23,43 @@ exports.create = (req, res) => {
     res.json({ data });
   });
 };
-exports.read = (req,res) => {
-    return res.json(req.category)
-}
+exports.read = (req, res) => {
+  return res.json(req.category);
+};
+
+exports.update = async (req, res) => {
+  const category = req.category;
+  category.name = req.body.name;
+  await category.save((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json(data);
+  });
+};
+exports.remove = async (req, res) => {
+  const category = req.category;
+  
+  await category.remove((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json({
+      message: 'Category deleted'
+    });
+  });
+};
+exports.list = async (req, res) => {
+  Category.find().exec((err,data) => {
+      if(err){
+        return res.status(400).json({
+          error: errorHandler(err)
+        })
+      }
+      res.json(data)
+  })
+};
